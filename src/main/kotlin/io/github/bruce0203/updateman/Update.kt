@@ -48,8 +48,9 @@ class Update(
             val future = Executors.newSingleThreadExecutor().submit(streamGobbler)
             val exitCode = process.waitFor()
             assert(exitCode == 0)
-            future.get()
-
+            println("Updating...")
+            future.get().toString().apply(::println)
+            println("Update Done!")
 
             Files.copy(File(dir, out).toPath(), File("plugins/update").toPath(), StandardCopyOption.REPLACE_EXISTING)
             PluginUtil.reload(plugin)
