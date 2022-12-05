@@ -22,16 +22,17 @@ class Update(
     out: String) {
 
     init {
-
+        var isCloned = false
         val git: Git = if (dir.exists()) {
             Git.open(File(dir, ".git"))
         } else {
+            isCloned = true
             Git.cloneRepository()
                 .setURI(gitURL)
                 .setDirectory(dir)
                 .call()
         }
-        if (git.pull().call().fetchResult.trackingRefUpdates.isNotEmpty()) {
+        if (isCloned || git.pull().call().fetchResult.trackingRefUpdates.isNotEmpty()) {
             val isWindows = System.getProperty("os.name")
                 .lowercase(Locale.getDefault()).startsWith("windows")
 
