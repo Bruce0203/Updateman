@@ -1,0 +1,5 @@
+name: UpdateMan
+version: $version
+main: io.github.bruce0203.updateman.Plugin
+libraries:
+  - io.github.monun:kommand-core:<version>
