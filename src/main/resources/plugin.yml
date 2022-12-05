@@ -2,5 +2,5 @@ name: UpdateMan
 version: $version
 main: io.github.bruce0203.updateman.Plugin
 libraries:
-  - io.github.brucefreedy:mccommand:1.0.1
+  - io.github.brucefreedy:mccommand:1.0.3
   - org.jetbrains.kotlin:kotlin-stdlib:1.6.10
