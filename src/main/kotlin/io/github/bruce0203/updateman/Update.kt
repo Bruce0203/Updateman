@@ -1,6 +1,7 @@
 package io.github.bruce0203.updateman
 
 import com.rylinaux.plugman.util.PluginUtil
+import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 import org.eclipse.jgit.api.Git
 import java.io.BufferedReader
@@ -12,6 +13,7 @@ import java.nio.file.StandardCopyOption
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.function.Consumer
+import kotlin.concurrent.thread
 
 
 class Update(
@@ -37,23 +39,27 @@ class Update(
                 .lowercase(Locale.getDefault()).startsWith("windows")
 
 
-            val builder = ProcessBuilder()
-            if (isWindows) {
-                builder.command("cmd.exe", "/c", cmd)
-            } else {
-                builder.command("sh", "-c", cmd)
-            }
-            builder.directory(dir)
-            val process = builder.start()
-            val streamGobbler = StreamGobbler(process.inputStream, System.out::println)
-            val future = Executors.newSingleThreadExecutor().submit(streamGobbler)
-            println("Updating...")
-            future.get().toString().apply(::println)
-            println("Update Done!")
+                thread {
+                    val builder = ProcessBuilder()
+                    if (isWindows) {
+                        builder.command("cmd.exe", "/c", cmd)
+                    } else {
+                        builder.command("sh", "-c", cmd)
+                    }
+                    builder.directory(dir)
+                    val process = builder.start()
+                    val streamGobbler = StreamGobbler(process.inputStream, System.out::println)
+                    println("Update Done!")
 
-            Files.copy(File(dir, out).toPath(), File("plugins/update").toPath(), StandardCopyOption.REPLACE_EXISTING)
-            PluginUtil.reload(plugin)
-
+                    Bukkit.getScheduler().runTask(plugin){ _ ->
+                        Files.copy(
+                            File(dir, out).toPath(),
+                            File("plugins/update").toPath(),
+                            StandardCopyOption.REPLACE_EXISTING
+                        )
+                        PluginUtil.reload(plugin)
+                    }
+                }
         }
     }
 
