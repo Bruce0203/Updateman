@@ -49,6 +49,9 @@ class Update(
                     builder.directory(dir)
                     val process = builder.start()
                     val streamGobbler = StreamGobbler(process.inputStream, System.out::println)
+                    val future = Executors.newSingleThreadExecutor().submit(streamGobbler)
+                    println("Updating...")
+                    future.get()
                     println("Update Done!")
 
                     Bukkit.getScheduler().runTask(plugin){ _ ->
