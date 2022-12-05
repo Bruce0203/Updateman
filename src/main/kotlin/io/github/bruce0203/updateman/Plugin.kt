@@ -22,6 +22,7 @@ class Plugin : JavaPlugin() {
                                 File(dataFolder, plugin.name),
                                 section.getString("cmd")!!,
                                 section.getString("out")!!,
+                                section.getString("branch")!!,
                             )
                         }
                     }

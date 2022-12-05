@@ -21,7 +21,8 @@ class Update(
     gitURL: String,
     dir: File,
     cmd: String,
-    out: String) {
+    out: String,
+    branch: String) {
 
     init {
         var isCloned = false
@@ -30,6 +31,8 @@ class Update(
         } else {
             isCloned = true
             Git.cloneRepository()
+                .setBranch(branch)
+                .setCloneAllBranches(false)
                 .setURI(gitURL)
                 .setDirectory(dir)
                 .call()
