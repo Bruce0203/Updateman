@@ -9,11 +9,13 @@ import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.file.Files
+import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.function.Consumer
 import kotlin.concurrent.thread
+import kotlin.io.path.name
 
 
 class Update(
@@ -60,7 +62,7 @@ class Update(
                     Bukkit.getScheduler().runTask(plugin){ _ ->
                         Files.copy(
                             File(dir, out).toPath(),
-                            File("plugins/update").toPath(),
+                            File("plugins/update/${Paths.get(out).name}").toPath(),
                             StandardCopyOption.REPLACE_EXISTING
                         )
                         PluginUtil.reload(plugin)
