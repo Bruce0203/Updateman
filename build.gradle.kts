@@ -51,7 +51,7 @@ allprojects {
         testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
         testImplementation(platform("org.junit:junit-bom:5.9.1"))
         testImplementation("org.junit.jupiter:junit-jupiter")
-        compileOnly("io.github.monun:kommand-api:2.14.0")
+        compileOnly("io.github.brucefreedy:mccommand:1.0.1")
 
     }
 

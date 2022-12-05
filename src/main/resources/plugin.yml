@@ -2,4 +2,4 @@ name: UpdateMan
 version: $version
 main: io.github.bruce0203.updateman.Plugin
 libraries:
-  - io.github.monun:kommand-core:2.14.0
+  - io.github.brucefreedy:mccommand:1.0.1

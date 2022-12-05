@@ -1,6 +1,6 @@
 package io.github.bruce0203.updateman
 
-import io.github.monun.kommand.kommand
+import io.github.brucefreedy.mccommand.MCCommand
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
@@ -9,11 +9,11 @@ import java.io.File
 class Plugin : JavaPlugin() {
 
     override fun onEnable() {
-        kommand {
-            register("updateman") {
+        MCCommand(this) {
+            command("updateman") {
                 config.getKeys(false).forEach { key ->
                     then(key) {
-                        executes {
+                        execute {
                             val section = config.getConfigurationSection(key)!!
                             val plugin = Bukkit.getPluginManager().getPlugin(section.getString("plugin")!!)!!
                             Update(
