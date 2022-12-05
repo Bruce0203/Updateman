@@ -46,8 +46,6 @@ class Update(
             val process = builder.start()
             val streamGobbler = StreamGobbler(process.inputStream, System.out::println)
             val future = Executors.newSingleThreadExecutor().submit(streamGobbler)
-            val exitCode = process.waitFor()
-            assert(exitCode == 0)
             println("Updating...")
             future.get().toString().apply(::println)
             println("Update Done!")
