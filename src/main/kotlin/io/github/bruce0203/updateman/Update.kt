@@ -25,7 +25,7 @@ class Update(
 
     init {
         var isCloned = false
-        val git: Git = if (dir.exists()) {
+        val git: Git = if (File(dir, ".git").exists()) {
             Git.open(File(dir, ".git"))
         } else {
             isCloned = true
