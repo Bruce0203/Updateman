@@ -19,7 +19,7 @@ class Plugin : JavaPlugin() {
                             Update(
                                 plugin,
                                 section.getString("url")!!,
-                                File(dataFolder, plugin.name),
+                                File(dataFolder, key),
                                 section.getString("cmd")!!,
                                 section.getString("out")!!,
                                 section.getString("branch")!!,
