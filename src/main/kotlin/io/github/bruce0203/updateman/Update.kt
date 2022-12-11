@@ -31,6 +31,7 @@ class Update(
         val git: Git = if (File(dir, ".git").exists()) {
             Git.open(File(dir, ".git"))
         } else {
+            dir.mkdir()
             isCloned = true
             Git.cloneRepository()
                 .setBranch(branch)
