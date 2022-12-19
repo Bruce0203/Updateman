@@ -20,6 +20,7 @@ import kotlin.io.path.name
 
 class Update(
     plugin: Plugin,
+    pluginName: String,
     gitURL: String,
     dir: File,
     cmd: String,
@@ -66,7 +67,9 @@ class Update(
                             File("plugins/update/${Paths.get(out).name}").toPath(),
                             StandardCopyOption.REPLACE_EXISTING
                         )
-                        PluginUtil.reload(plugin)
+                        val pl = Bukkit.getPluginManager().getPlugin(pluginName)
+                        if (pl == null) PluginUtil.load(pl)
+                        else PluginUtil.reload(pl)
                     }
                 }
         }

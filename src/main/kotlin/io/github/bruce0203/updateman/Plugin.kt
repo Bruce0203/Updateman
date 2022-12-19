@@ -15,10 +15,11 @@ class Plugin : JavaPlugin() {
                     then(key) {
                         execute {
                             val section = config.getConfigurationSection(key)!!
-                            val plugin = Bukkit.getPluginManager().getPlugin(section.getString("plugin")!!)!!
+                            val plugin = Bukkit.getPluginManager().getPlugin(section.getString("plugin")!!)
                             Update(
-                                plugin,
+                                plugin?: this@Plugin,
                                 section.getString("url")!!,
+                                section.getString("plugin")!!,
                                 File(dataFolder, key),
                                 section.getString("cmd")!!,
                                 section.getString("out")!!,
