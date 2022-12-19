@@ -16,7 +16,13 @@ class Plugin : JavaPlugin() {
                         execute {
                             val section = config.getConfigurationSection(key)!!
                             val plugin = Bukkit.getPluginManager().getPlugin(section.getString("plugin")!!)
-                            Update(
+                            if (section.getBoolean("download")) {
+                                download(
+                                    section.getString("plugin")!!,
+                                    section.getString("url")!!,
+                                    section.getString("destiny")!!,
+                                    )
+                            } else Update(
                                 plugin?: this@Plugin,
                                 section.getString("plugin")!!,
                                 section.getString("url")!!,
