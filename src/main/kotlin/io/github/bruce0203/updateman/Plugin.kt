@@ -15,7 +15,7 @@ class Plugin : JavaPlugin() {
                     then(key) {
                         execute {
                             val section = config.getConfigurationSection(key)!!
-                            val plugin = Bukkit.getPluginManager().getPlugin(section.getString("plugin")!!)
+                            val plugin = Bukkit.getPluginManager().getPlugin(section.getString("plugin")?: "")
                             if (section.getBoolean("pull")) {
                                 pull(
                                     section.getString("destiny")!!
