@@ -10,6 +10,7 @@ import java.net.URL
 fun download(pluginName: String, url: String, destiny: String) {
     val destinyFile = File(destiny)
     println("Downloading ${destinyFile.name}")
+    destinyFile.parentFile.mkdir()
     FileUtils.copyURLToFile(URL(url), destinyFile)
     println("Downloaded  ${destinyFile.name}")
     val pl = Bukkit.getPluginManager().getPlugin(pluginName)
