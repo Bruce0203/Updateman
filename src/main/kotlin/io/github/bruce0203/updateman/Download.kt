@@ -15,6 +15,6 @@ fun download(pluginName: String, url: String, destiny: String) {
         if (pl !== null) destinyFile else File("plugins/${destinyFile.name}")
     )
     println("Downloaded  ${destinyFile.name}")
-    if (pl == null) PluginUtil.load(destinyFile.name)
+    if (pl == null) PluginUtil.load(pluginName)
     else PluginUtil.reload(pl)
 }
