@@ -62,12 +62,14 @@ class Update(
                     println("Update Done!")
 
                     Bukkit.getScheduler().runTask(plugin){ _ ->
+                        val pl = Bukkit.getPluginManager().getPlugin(pluginName)
+                        val path = if (pl !== null) File("plugins/update/${Paths.get(out).name}").toPath()
+                        else File("plugins/${Paths.get(out).name}").toPath()
                         Files.copy(
                             File(dir, out).toPath(),
-                            File("plugins/update/${Paths.get(out).name}").toPath(),
+                            path,
                             StandardCopyOption.REPLACE_EXISTING
                         )
-                        val pl = Bukkit.getPluginManager().getPlugin(pluginName)
                         if (pl == null) PluginUtil.load(pl)
                         else PluginUtil.reload(pl)
                     }
