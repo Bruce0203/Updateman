@@ -18,8 +18,8 @@ class Plugin : JavaPlugin() {
                             val plugin = Bukkit.getPluginManager().getPlugin(section.getString("plugin")!!)
                             Update(
                                 plugin?: this@Plugin,
-                                section.getString("url")!!,
                                 section.getString("plugin")!!,
+                                section.getString("url")!!,
                                 File(dataFolder, key),
                                 section.getString("cmd")!!,
                                 section.getString("out")!!,
