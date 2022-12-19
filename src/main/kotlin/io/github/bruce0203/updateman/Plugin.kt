@@ -1,6 +1,6 @@
 package io.github.bruce0203.updateman
 
-import io.github.brucefreedy.mccommand.MCCommand
+import io.github.inggameteam.command.MCCommand
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File

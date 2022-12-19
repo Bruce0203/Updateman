@@ -46,13 +46,14 @@ allprojects {
 
     dependencies {
         compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+        api(fileTree(mapOf("dir" to "shadowLib", "include" to listOf("*.jar"))))
         compileOnly("org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT")
         api("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
         testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
         testImplementation(platform("org.junit:junit-bom:5.9.1"))
         testImplementation("org.junit.jupiter:junit-jupiter")
-        api("io.github.brucefreedy:mccommand:1.0.3")
 
+//        api("io.github.bruce0203:mccommand:4")
     }
 
     lateinit var sourcesArtifact: PublishArtifact
