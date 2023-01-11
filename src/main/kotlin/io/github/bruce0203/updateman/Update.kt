@@ -4,6 +4,7 @@ import com.rylinaux.plugman.util.PluginUtil
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.transport.CredentialsProvider
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
@@ -25,7 +26,9 @@ class Update(
     dir: File,
     cmd: String,
     out: String,
-    branch: String) {
+    branch: String,
+
+) {
 
     init {
         var isCloned = false
@@ -36,6 +39,7 @@ class Update(
             isCloned = true
             Git.cloneRepository()
                 .setBranch(branch)
+                .setCredentialsProvider(CredentialsProvider.getDefault())
                 .setCloneAllBranches(false)
                 .setURI(gitURL)
                 .setDirectory(dir)
