@@ -27,7 +27,7 @@ class Plugin : JavaPlugin() {
                                     section.getString("destiny")!!,
                                     )
                             } else Update(
-                                plugin?: this@Plugin,
+                                plugin?.run { if (!isEnabled) null else this }?: this@Plugin,
                                 section.getString("plugin")!!.renderStringEnvVar(),
                                 section.getString("url")!!,
                                 File(dataFolder, key),
