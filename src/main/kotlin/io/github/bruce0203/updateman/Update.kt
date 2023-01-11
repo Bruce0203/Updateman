@@ -39,7 +39,6 @@ class Update(
             isCloned = true
             Git.cloneRepository()
                 .setBranch(branch)
-                .setCredentialsProvider(CredentialsProvider.getDefault())
                 .setCloneAllBranches(false)
                 .setURI(gitURL)
                 .setDirectory(dir)
@@ -74,7 +73,7 @@ class Update(
                             path,
                             StandardCopyOption.REPLACE_EXISTING
                         )
-                        if (pl == null) PluginUtil.load(pl)
+                        if (pl == null) PluginUtil.load(pluginName)
                         else PluginUtil.reload(pl)
                     }
                 }
