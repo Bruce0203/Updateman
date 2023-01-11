@@ -7,3 +7,7 @@ libraries:
   - org.jetbrains.kotlin:kotlin-stdlib:1.6.10
 commands:
   updateman:
+    permission: updateman.admin
+permissions:
+  updateman.admin:
+    default: op
