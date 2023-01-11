@@ -23,12 +23,12 @@ class Plugin : JavaPlugin() {
                             } else if (section.getBoolean("download")) {
                                 download(
                                     section.getString("plugin")!!,
-                                    section.getString("url")!!.renderStringEnvVar(),
+                                    section.getString("url")!!,
                                     section.getString("destiny")!!,
                                     )
                             } else Update(
                                 plugin?.run { if (!isEnabled) null else this }?: this@Plugin,
-                                section.getString("plugin")!!.renderStringEnvVar(),
+                                section.getString("plugin")!!,
                                 section.getString("url")!!,
                                 File(dataFolder, key),
                                 section.getString("cmd")!!,
@@ -43,8 +43,5 @@ class Plugin : JavaPlugin() {
         }
     }
 
-    private fun String.renderStringEnvVar(): String {
-        return this.replace("\${GH_TOKEN}", System.getenv("GH_TOKEN"))
-    }
 
 }
