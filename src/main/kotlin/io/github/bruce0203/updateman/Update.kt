@@ -30,58 +30,59 @@ class Update(
 ) {
 
     init {
-        plugin.semaphore[key] = true
-        var isCloned = false
-        val git: Git = if (File(dir, ".git").exists()) {
-            Git.open(File(dir, ".git"))
-        } else {
-            dir.mkdir()
-            isCloned = true
-            Git.cloneRepository()
-                .setBranch(branch)
-                .setCloneAllBranches(false)
-                .setURI(gitURL)
-                .setDirectory(dir)
-                .call()
-        }
-        if (isCloned || git.pull().call().fetchResult.trackingRefUpdates.isNotEmpty()) {
-            val isWindows = System.getProperty("os.name")
-                .lowercase(Locale.getDefault()).startsWith("windows")
+        thread {
+
+            plugin.semaphore[key] = true
+            var isCloned = false
+            val git: Git = if (File(dir, ".git").exists()) {
+                Git.open(File(dir, ".git"))
+            } else {
+                dir.mkdir()
+                isCloned = true
+                Git.cloneRepository()
+                    .setBranch(branch)
+                    .setCloneAllBranches(false)
+                    .setURI(gitURL)
+                    .setDirectory(dir)
+                    .call()
+            }
+            if (isCloned || git.pull().call().fetchResult.trackingRefUpdates.isNotEmpty()) {
+                val isWindows = System.getProperty("os.name")
+                    .lowercase(Locale.getDefault()).startsWith("windows")
 
 
-                thread {
-                    val builder = ProcessBuilder()
-                    if (isWindows) {
-                        builder.command("cmd.exe", "/c", cmd)
-                    } else {
-                        builder.command("sh", "-c", cmd)
-                    }
-                    builder.directory(dir)
-                    val process = builder.start()
-                    val streamGobbler = StreamGobbler(process.inputStream, System.out::println)
-                    val future = Executors.newSingleThreadExecutor().submit(streamGobbler)
-                    println("Updating...")
-                    future.get()
-                    println("Update Done!")
-
-                    Bukkit.getScheduler().runTask(plugin){ _ ->
-                        val pl = Bukkit.getPluginManager().getPlugin(pluginName)
-                        val path = if (pl !== null) File("plugins/update/${Paths.get(out).name}").toPath()
-                        else File("plugins/${Paths.get(out).name}").toPath()
-                        Files.copy(
-                            File(dir, out).toPath(),
-                            path,
-                            StandardCopyOption.REPLACE_EXISTING
-                        )
-                        if (pl == null) PluginUtil.load(pluginName)
-                        else {
-                            PluginUtil.reload(pl)
-                        }
-                        plugin.semaphore.remove(key)
-                    }
+                val builder = ProcessBuilder()
+                if (isWindows) {
+                    builder.command("cmd.exe", "/c", cmd)
+                } else {
+                    builder.command("sh", "-c", cmd)
                 }
-        } else {
-            plugin.semaphore.remove(key)
+                builder.directory(dir)
+                val process = builder.start()
+                val streamGobbler = StreamGobbler(process.inputStream, System.out::println)
+                val future = Executors.newSingleThreadExecutor().submit(streamGobbler)
+                println("Updating...")
+                future.get()
+                println("Update Done!")
+
+                Bukkit.getScheduler().runTask(plugin){ _ ->
+                    val pl = Bukkit.getPluginManager().getPlugin(pluginName)
+                    val path = if (pl !== null) File("plugins/update/${Paths.get(out).name}").toPath()
+                    else File("plugins/${Paths.get(out).name}").toPath()
+                    Files.copy(
+                        File(dir, out).toPath(),
+                        path,
+                        StandardCopyOption.REPLACE_EXISTING
+                    )
+                    if (pl == null) PluginUtil.load(pluginName)
+                    else {
+                        PluginUtil.reload(pl)
+                    }
+                    plugin.semaphore.remove(key)
+                }
+            } else {
+                plugin.semaphore.remove(key)
+            }
         }
     }
 
