@@ -21,8 +21,10 @@ class Plugin : JavaPlugin() {
                         func = block@{ _ ->
                             if (semaphore[key] === null) {
                                 thread {
-                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "updateman $key")
-                                    Bukkit.getScheduler().runTaskLater(this@Plugin, func!!, 20)
+                                    Bukkit.getScheduler().runTask(this@Plugin) { _ ->
+                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "updateman $key")
+                                        Bukkit.getScheduler().runTaskLater(this@Plugin, func!!, 20)
+                                    }
                                 }
                             } else Bukkit.getScheduler().runTaskLater(this@Plugin, func!!, 20)
                         }
