@@ -27,7 +27,6 @@ class Update(
     cmd: String,
     out: String,
     branch: String,
-
 ) {
 
     init {
@@ -74,7 +73,10 @@ class Update(
                             StandardCopyOption.REPLACE_EXISTING
                         )
                         if (pl == null) PluginUtil.load(pluginName)
-                        else PluginUtil.reload(pl)
+                        else {
+                            PluginUtil.reload(pl)
+                            PluginUtil.reload(plugin)
+                        }
                     }
                 }
         }

@@ -12,10 +12,14 @@ class Plugin : JavaPlugin() {
         MCCommand(this) {
             command("updateman") {
                 config.getKeys(false).forEach { key ->
+                    if (config.isSet("$key.watchdog")) {
+                        Bukkit.getScheduler().scheduleSyncRepeatingTask(this@Plugin, {
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "updateman $key")
+                        }, 20, 20)
+                    }
                     then(key) {
                         execute {
                             val section = config.getConfigurationSection(key)!!
-                            val plugin = Bukkit.getPluginManager().getPlugin(section.getString("plugin")?: "")
                             if (section.getBoolean("pull")) {
                                 pull(
                                     section.getString("destiny")!!
@@ -25,16 +29,18 @@ class Plugin : JavaPlugin() {
                                     section.getString("plugin")!!,
                                     section.getString("url")!!,
                                     section.getString("destiny")!!,
-                                    )
-                            } else Update(
-                                this@Plugin,
-                                section.getString("plugin")!!,
-                                section.getString("url")!!,
-                                File(dataFolder, key),
-                                section.getString("cmd")!!,
-                                section.getString("out")!!,
-                                section.getString("branch")!!,
-                            )
+                                )
+                            } else {
+                                Update(
+                                    this@Plugin,
+                                    section.getString("plugin")!!,
+                                    section.getString("url")!!,
+                                    File(dataFolder, key),
+                                    section.getString("cmd")!!,
+                                    section.getString("out")!!,
+                                    section.getString("branch")!!,
+                                )
+                            }
                         }
                     }
 
