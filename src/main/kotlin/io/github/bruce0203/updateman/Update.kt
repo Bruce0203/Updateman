@@ -2,7 +2,6 @@ package io.github.bruce0203.updateman
 
 import com.rylinaux.plugman.util.PluginUtil
 import org.bukkit.Bukkit
-import org.bukkit.plugin.Plugin
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.transport.CredentialsProvider
 import java.io.BufferedReader
@@ -20,6 +19,7 @@ import kotlin.io.path.name
 
 
 class Update(
+    key: String,
     plugin: Plugin,
     pluginName: String,
     gitURL: String,
@@ -30,6 +30,7 @@ class Update(
 ) {
 
     init {
+        plugin.semaphore[key] = true
         var isCloned = false
         val git: Git = if (File(dir, ".git").exists()) {
             Git.open(File(dir, ".git"))
@@ -74,8 +75,8 @@ class Update(
                         )
                         if (pl == null) PluginUtil.load(pluginName)
                         else {
-                            PluginUtil.reload(pl)
                             PluginUtil.reload(plugin)
+                            plugin.semaphore.remove(key)
                         }
                     }
                 }

@@ -3,19 +3,26 @@ package io.github.bruce0203.updateman
 import io.github.inggameteam.command.MCCommand
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitTask
 import java.io.File
 
 @Suppress("unused")
 class Plugin : JavaPlugin() {
+
+    val semaphore = HashMap<String, Boolean>()
 
     override fun onEnable() {
         MCCommand(this) {
             command("updateman") {
                 config.getKeys(false).forEach { key ->
                     if (config.isSet("$key.watchdog")) {
-                        Bukkit.getScheduler().scheduleSyncRepeatingTask(this@Plugin, {
+                        var func: ((t: BukkitTask) -> Unit)? = null
+                        func = block@{ _ ->
+                            if (semaphore[key] !== null) return@block
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "updateman $key")
-                        }, 20, 20)
+                            Bukkit.getScheduler().runTaskLater(this@Plugin, func!!, 20)
+                        }
+                        Bukkit.getScheduler().runTaskLater(this@Plugin, func, 20)
                     }
                     then(key) {
                         execute {
@@ -32,6 +39,7 @@ class Plugin : JavaPlugin() {
                                 )
                             } else {
                                 Update(
+                                    key,
                                     this@Plugin,
                                     section.getString("plugin")!!,
                                     section.getString("url")!!,
