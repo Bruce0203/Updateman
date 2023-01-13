@@ -5,6 +5,7 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import java.io.File
+import kotlin.concurrent.thread
 
 @Suppress("unused")
 class Plugin : JavaPlugin() {
@@ -18,9 +19,12 @@ class Plugin : JavaPlugin() {
                     if (config.isSet("$key.watchdog")) {
                         var func: ((t: BukkitTask) -> Unit)? = null
                         func = block@{ _ ->
-                            if (semaphore[key] === null)
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "updateman $key")
-                            Bukkit.getScheduler().runTaskLater(this@Plugin, func!!, 20)
+                            if (semaphore[key] === null) {
+                                thread {
+                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "updateman $key")
+                                    Bukkit.getScheduler().runTaskLater(this@Plugin, func!!, 20)
+                                }
+                            } else Bukkit.getScheduler().runTaskLater(this@Plugin, func!!, 20)
                         }
                         Bukkit.getScheduler().runTaskLater(this@Plugin, func, 20)
                     }
