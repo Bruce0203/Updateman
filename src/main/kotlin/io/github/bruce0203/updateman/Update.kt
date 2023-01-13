@@ -75,7 +75,7 @@ class Update(
                         )
                         if (pl == null) PluginUtil.load(pluginName)
                         else {
-                            PluginUtil.reload(pluginName )
+                            PluginUtil.reload(pl)
                         }
                         plugin.semaphore.remove(key)
                     }
