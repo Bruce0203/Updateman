@@ -1,7 +1,7 @@
 name: UpdateMan
 version: $version
 main: io.github.bruce0203.updateman.Plugin
-api-version: 1.13
+api-version: 1.19
 libraries:
   - io.github.brucefreedy:mccommand:1.0.3
   - org.jetbrains.kotlin:kotlin-stdlib:1.6.10
