@@ -18,8 +18,8 @@ class Plugin : JavaPlugin() {
                     if (config.isSet("$key.watchdog")) {
                         var func: ((t: BukkitTask) -> Unit)? = null
                         func = block@{ _ ->
-                            if (semaphore[key] !== null) return@block
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "updateman $key")
+                            if (semaphore[key] === null)
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "updateman $key")
                             Bukkit.getScheduler().runTaskLater(this@Plugin, func!!, 20)
                         }
                         Bukkit.getScheduler().runTaskLater(this@Plugin, func, 20)
