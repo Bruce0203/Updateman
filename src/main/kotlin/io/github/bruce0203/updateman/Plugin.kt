@@ -5,12 +5,13 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import java.io.File
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.thread
 
 @Suppress("unused")
 class Plugin : JavaPlugin() {
 
-    val semaphore = HashMap<String, Boolean>()
+    val semaphore = ConcurrentHashMap<String, Boolean>()
 
     override fun onEnable() {
         MCCommand(this) {
