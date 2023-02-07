@@ -1,6 +1,6 @@
 package io.github.bruce0203.updateman
 
-import com.rylinaux.plugman.util.PluginUtil
+import io.github.inggameteam.inggame.plugman.util.PluginUtil
 import org.apache.commons.io.FileUtils
 import org.bukkit.Bukkit
 import java.io.File

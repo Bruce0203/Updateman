@@ -1,9 +1,8 @@
 package io.github.bruce0203.updateman
 
-import com.rylinaux.plugman.util.PluginUtil
+import io.github.inggameteam.inggame.plugman.util.PluginUtil
 import org.bukkit.Bukkit
 import org.eclipse.jgit.api.Git
-import org.eclipse.jgit.transport.CredentialsProvider
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
