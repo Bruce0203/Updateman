@@ -49,7 +49,7 @@ allprojects {
         api(fileTree(mapOf("dir" to "shadowLib", "include" to listOf("*.jar"))))
         compileOnly("org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT")
         api("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
-        compileOnly("io.github.bruce0203:plugman:3")
+        compileOnly("io.github.bruce0203:plugman:4")
         compileOnly("commons-io:commons-io:2.6")
 
         testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
